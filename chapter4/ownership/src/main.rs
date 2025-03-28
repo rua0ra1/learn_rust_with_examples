@@ -75,25 +75,82 @@ fn takes_and_gives_back(a_string: String) -> String {
 // }
 
 // mutable references
-fn main() {
-    let mut s1 = String::from("hello");
+// rules of the mutable references
+// 1) you can only have one mutable references for a particular data in the current scope
+// 2) using this rule, rust avoids data racing when two pointers are pointing to two data. when both are trying to read and write at the same time
 
-    change(&mut s1)
+// fn main() {
+//     let mut s1 = String::from("hello");
+
+//     change(&mut s1)
+// }
+
+// fn change(some_string: &mut String) {
+//     some_string.push_str(",world");
+// }
+
+// fn main() {
+//     let mut s1 = String::from("hello");
+
+//     println!(" the value of the s1 is {} ", s1);
+
+//     let s2 = &mut s1;
+
+//     s2.push_str("no hello ");
+
+//     println!(" the value of the s1 is {} ", s1);
+//     println!(" the value of the s1 is {} ", s2);
+// }
+
+// two immutable referneces, in this case they just read the data cant write it
+// you can't have mutable reference too immutable variable
+
+// you can't have immutable mutable active at the same time
+
+// note that scope of the reference ends with where it is used last time.
+// fn main() {
+//     let mut s1 = String::from("hello");
+
+//     let r1 = &s1;
+//     let _r3 = &s1;
+
+//     let _r2 = &mut s1;
+
+//     println!(" the value of the r1 {}", r1)
+// }
+
+/* // dangling refereces: when we have reference to invalid memory or data
+
+// the main rules of references
+
+1. at any given time, you can either one mutable reference
+2. or any number of immutable reference
+3. reference must be always valid
+
+fn main() {
+    let reference_to_nothing = dangle();
 }
 
-fn change(some_string: &mut String) {
-    some_string.push_str(",world");
+fn dangle() -> &String {
+    let s = String::from("hello");
+    &s
 }
+ */
 
-fn main() {
-    let mut s1 = String::from("hello");
+//// slices /////////////
+/// 1) the slices let you reference a continugous series of elements with in a data without
+/// entire collection
+/// 2) slices wont take the ownership of the underlying data
 
-    println!(" the value of the s1 is {} ", s1);
+fn main() {}
 
-    let s2 = &mut s1;
+fn first_word(s: &String) -> usize {
+    let bytes = s.as_bytes();
 
-    s2.push_str("no hello ");
-
-    println!(" the value of the s1 is {} ", s1);
-    println!(" the value of the s1 is {} ", s2);
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return i;
+        }
+    }
+    s.len()
 }
